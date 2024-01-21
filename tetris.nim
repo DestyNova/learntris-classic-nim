@@ -1,4 +1,4 @@
-import strformat,strutils,terminal
+import terminal
 
 const
   W = 10
