@@ -1,0 +1,11 @@
+{
+  "attempt": "kLeKlaEhlgnTelfTFQjwuCpBcqKrCdHo",
+  "targets": {
+    "main": {
+      "args": [
+        "./tetris"
+      ],
+      "shell": false
+    }
+  }
+}
