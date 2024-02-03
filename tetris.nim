@@ -4,9 +4,13 @@ const
 
 type Grid = array[H, array[W, char]]
 var g: Grid
-for r in 0..<H:
-  for c in 0..<W:
-    g[r][c] = '.'
+
+proc clear(g: var Grid) =
+  for r in 0..<H:
+    for c in 0..<W:
+      g[r][c] = '.'
+
+g.clear
 
 while true:
   let c = stdin.readLine[0]
@@ -22,4 +26,5 @@ while true:
         let line = stdin.readLine
         for c in 0..<W:
           g[r][c] = line[c*2]
+    of 'c': g.clear
     else: continue
