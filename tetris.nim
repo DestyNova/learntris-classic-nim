@@ -7,6 +7,7 @@ type Grid = array[H, array[W, char]]
 var
   g: Grid
   score = 0
+  cleared = 0
 
 proc clear(g: var Grid) =
   for r in 0..<H:
@@ -31,4 +32,5 @@ while true:
           g[r][c] = line[c*2]
     of "c": g.clear
     of "?s": echo score
+    of "?n": echo cleared
     else: continue
