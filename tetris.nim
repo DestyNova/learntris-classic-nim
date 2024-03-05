@@ -16,6 +16,17 @@ proc clear(g: var Grid) =
 
 g.clear
 
+proc step() =
+  for r in 0..<H:
+    var isClear = true
+    for c in 0..<W:
+      if g[r][c] == '.': isClear = false
+
+    if isClear:
+      score += 100
+      cleared += 1
+      for c in 0..<W: g[r][c] = '.'
+
 while true:
   let c = stdin.readLine
   case c:
@@ -33,4 +44,5 @@ while true:
     of "c": g.clear
     of "?s": echo score
     of "?n": echo cleared
+    of "s": step()
     else: continue
