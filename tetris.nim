@@ -5,7 +5,7 @@ const
   H = 22
 
 type Grid = seq[seq[char]]
-type Pieces = enum I, O, Z, S
+type Pieces = enum I, O, Z, S, J
 
 var
   g: Grid = newSeqWith(H, newSeq[char](W))
@@ -35,7 +35,7 @@ proc makeActiveRegion(p: Pieces) =
   let (w,h) = case p:
     of Pieces.I: (4,4)
     of Pieces.O: (2,2)
-    of Pieces.Z, Pieces.S: (3,3)
+    of Pieces.Z, Pieces.S, Pieces.J: (3,3)
 
   activeRegion = newSeqWith(h, newSeq[char](w))
 
@@ -67,6 +67,12 @@ proc setPiece(p: Pieces) =
     activeRegion[1][0] = 'g'
     activeRegion[1][1] = 'g'
 
+  elif p == Pieces.J:
+    activeRegion[0][0] = 'b'
+    activeRegion[1][0] = 'b'
+    activeRegion[1][1] = 'b'
+    activeRegion[1][2] = 'b'
+
 proc showGrid(grid: Grid) =
   for r in 0..<grid.len:
     for c in 0..<grid[0].len:
@@ -92,5 +98,6 @@ while not stdin.endOfFile:
       of "O": setPiece(Pieces.O)
       of "Z": setPiece(Pieces.Z)
       of "S": setPiece(Pieces.S)
+      of "J": setPiece(Pieces.J)
       of "t": showGrid(activeRegion)
       else: continue
