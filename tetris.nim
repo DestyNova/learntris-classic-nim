@@ -1,11 +1,11 @@
-import sequtils, strutils
+import sequtils, strformat, strutils
 
 const
   W = 10
   H = 22
 
 type Grid = seq[seq[char]]
-type Pieces = enum I, O
+type Pieces = enum I, O, Z
 
 var
   g: Grid = newSeqWith(H, newSeq[char](W))
@@ -35,6 +35,7 @@ proc makeActiveRegion(p: Pieces) =
   let (w,h) = case p:
     of Pieces.I: (4,4)
     of Pieces.O: (2,2)
+    of Pieces.Z: (3,3)
 
   activeRegion = newSeqWith(h, newSeq[char](w))
 
@@ -54,27 +55,35 @@ proc setPiece(p: Pieces) =
       activeRegion[0][c] = 'y'
       activeRegion[1][c] = 'y'
 
+  elif p == Pieces.Z:
+    activeRegion[0][0] = 'r'
+    activeRegion[0][1] = 'r'
+    activeRegion[1][1] = 'r'
+    activeRegion[1][2] = 'r'
+
 proc showGrid(grid: Grid) =
   for r in 0..<grid.len:
     for c in 0..<grid[0].len:
       stdout.write(grid[r][c] & " ")
     echo ""
 
-while true:
-  let c = stdin.readLine
-  case c:
-    of "q": break
-    of "p": showGrid(g)
-    of "g": # given
-      for r in 0..<H:
-        let line = stdin.readLine
-        for c in 0..<W:
-          g[r][c] = line[c*2]
-    of "c": g.clear
-    of "?s": echo score
-    of "?n": echo cleared
-    of "s": step()
-    of "I": setPiece(Pieces.I)
-    of "O": setPiece(Pieces.O)
-    of "t": showGrid(activeRegion)
-    else: continue
+while not stdin.endOfFile:
+  let s = stdin.readLine
+  for c in s.split:
+    case c:
+      of "q": break
+      of "p": showGrid(g)
+      of "g": # given
+        for r in 0..<H:
+          let line = stdin.readLine
+          for c in 0..<W:
+            g[r][c] = line[c*2]
+      of "c": g.clear
+      of "?s": echo score
+      of "?n": echo cleared
+      of "s": step()
+      of "I": setPiece(Pieces.I)
+      of "O": setPiece(Pieces.O)
+      of "Z": setPiece(Pieces.Z)
+      of "t": showGrid(activeRegion)
+      else: continue
